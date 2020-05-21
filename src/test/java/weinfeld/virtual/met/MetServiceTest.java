@@ -17,14 +17,14 @@ public class MetServiceTest {
         MetService service = new MetServiceFactory().getInstance();
 
         //when
-        Response<MetFeed> response = service.getDepartments().execute();
+        Response<MetFeed.DepartmentList> response = service.getDepartments().execute();
 
         //then
         assertTrue(response.toString(), response.isSuccessful());
-        MetFeed feed = response.body();
-        assertNotNull(feed);
+        MetFeed.DepartmentList departmentList = response.body();
+        assertNotNull(departmentList);
 
-        List<MetFeed.Department> departments = feed.departments;
+        List<MetFeed.Department> departments = departmentList.departments;
         assertFalse(departments.isEmpty());
         MetFeed.Department department = departments.get(0);
         assertNotNull(department.displayName);
@@ -39,15 +39,15 @@ public class MetServiceTest {
         MetService service = new MetServiceFactory().getInstance();
 
         //when
-        Response<MetFeed> response = service.getObjectsInDepartment("18").execute();
+        Response<MetFeed.DepartmentObjects> response = service.getObjectsInDepartment("18").execute();
 
         //then
         assertTrue(response.toString(), response.isSuccessful());
-        MetFeed feed = response.body();
-        assertNotNull(feed);
+        MetFeed.DepartmentObjects departmentObjects = response.body();
+        assertNotNull(departmentObjects);
 
-        assert(feed.total > 0);
-        List<Integer> objectIDs = feed.objectIDs;
+        assert(departmentObjects.total > 0);
+        List<Integer> objectIDs = departmentObjects.objectIDs;
         assertFalse(objectIDs.isEmpty());
         int objectID = objectIDs.get(0);
         assert(objectID > 0);
@@ -61,18 +61,21 @@ public class MetServiceTest {
         MetService service = new MetServiceFactory().getInstance();
 
         //when
-        Response<MetFeed> response = service.getObjectMetadata("500895").execute();
+        Response<MetFeed.Object> response = service.getObjectMetadata("500895").execute();
 
         //then
         assertTrue(response.toString(), response.isSuccessful());
-        MetFeed feed = response.body();
-        assertNotNull(feed);
+        MetFeed.Object object = response.body();
+        assertNotNull(object);
 
-        assertNotNull(feed.objectName);
-        assertNotNull(feed.objectDate);
-        assertNotNull(feed.period);
-        assertNotNull(feed.culture);
-        assertNotNull(feed.primaryImage);
+        assertNotNull(object.objectName);
+        assertNotNull(object.objectDate);
+        assertNotNull(object.period);
+        assertNotNull(object.culture);
+        assertNotNull(object.primaryImage);
+
+        System.out.println(object.objectName);
+        System.out.println(object.objectDate);
 
     }
 }

@@ -5,17 +5,27 @@ import java.util.List;
 
 public class MetFeed {
 
-    List<Department> departments;
+    class DepartmentList{
+        List<Department> departments;
+    }
 
-    int total;
-    List<Integer> objectIDs;
 
-    int objectID;
-    String primaryImage;
-    String objectName;
-    String culture;
-    String period;
-    String objectDate;
+    class DepartmentObjects {
+        int total;
+        List<Integer> objectIDs;
+    }
+
+
+
+    class Object {
+        int objectID;
+        String primaryImage;
+        String objectName;
+        String culture;
+        String period;
+        String objectDate;
+    }
+
 
     class Department {
         int departmentId;
