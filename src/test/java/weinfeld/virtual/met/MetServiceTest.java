@@ -62,7 +62,7 @@ public class MetServiceTest {
         MetService service = new MetServiceFactory().getInstance();
 
         //when
-        Response<MetFeed.Object> response = service.getObjectMetadata(500895).execute();
+        Response<MetFeed.Object> response = service.getObjectMetadata(50).execute();
 
         //then
         assertTrue(response.toString(), response.isSuccessful());
@@ -77,6 +77,7 @@ public class MetServiceTest {
 
         System.out.println(object.objectName);
         System.out.println(object.objectDate);
+        System.out.println(object.primaryImage);
 
     }
 }

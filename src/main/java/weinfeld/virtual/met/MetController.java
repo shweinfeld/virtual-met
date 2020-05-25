@@ -4,24 +4,47 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MetController {
 
     private MetService service;
+    JLabel objectImage;
+    JLabel objectName;
+    JLabel objectDate;
+    JLabel objectPeriod;
+    JLabel objectCulture;
+    BasicArrowButton nextButton;
+    BasicArrowButton previousButton;
 
-    JComboBox<MetFeed.DepartmentList.Department> departmentComboBox;
 
     private ArrayList<Integer> objectIDs;
-    public MetController(MetService service, ArrayList<Integer> objectIDs) {
+    public MetController(MetService service, JLabel objectImage,
+                         JLabel objectName,
+                         JLabel objectDate,
+                         JLabel objectPeriod,
+                         JLabel objectCulture,
+                         BasicArrowButton nextButton,
+                         BasicArrowButton previousButton) {
         this.service = service;
-        this.objectIDs = objectIDs;
-
+        this.objectImage = objectImage;
+        this.objectName = objectName;
+        this.objectDate = objectDate;
+        this.objectPeriod = objectPeriod;
+        this.objectCulture = objectCulture;
+        this.previousButton = previousButton;
+        this.nextButton = nextButton;
     }
 
-    public void requestDepartments(JComboBox<MetFeed.DepartmentList.Department> departmentComboBox) {
+    public void requestDepartments( JComboBox<MetFeed.DepartmentList.Department> departmentComboBox) {
         service.getDepartments().enqueue(new Callback<MetFeed.DepartmentList>() {
             @Override
             public void onResponse(Call<MetFeed.DepartmentList> call, Response<MetFeed.DepartmentList> response) {
@@ -30,11 +53,12 @@ public class MetController {
                 for (MetFeed.DepartmentList.Department department:departments) {
                     departmentComboBox.addItem(department);
                 }
+
             }
 
             @Override
             public void onFailure(Call<MetFeed.DepartmentList> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
@@ -46,29 +70,64 @@ public class MetController {
                 MetFeed.DepartmentObjects departmentObjects = response.body();
                 assert departmentObjects != null;
                 objectIDs = departmentObjects.objectIDs;
-
+                requestObjectData(0);
             }
 
             @Override
             public void onFailure(Call<MetFeed.DepartmentObjects> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
 
-    public void requestObjectData(int objID,
-                                  JLabel objectImage,
-                                  JLabel objectName,
-                                  JLabel objectDate,
-                                  JLabel objectPeriod,
-                                  JLabel objectCulture) {
-        service.getObjectMetadata(objID).enqueue(new Callback<MetFeed.Object>() {
+    public void requestObjectData(int objIndex) {
+        nextButton.setEnabled(true);
+        previousButton.setEnabled(true);
+        if (objIndex >= objectIDs.size()) {
+            previousButton.setEnabled(false);
+            objIndex = 0;
+        }
+
+        if (objIndex < 0) {
+            nextButton.setEnabled(false);
+            objIndex = objectIDs.size() - 1;
+
+        }
+
+
+
+        service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(new Callback<MetFeed.Object>() {
             @Override
             public void onResponse(Call<MetFeed.Object> call, Response<MetFeed.Object> response) {
 
                 MetFeed.Object object = response.body();
-                ImageIcon objectImg = new ImageIcon(object.primaryImage);
-                objectImage.setIcon(objectImg);
+                assert object != null;
+                objectImage.setSize(200, 200);
+
+                try {
+
+                    if (object.primaryImage.equals("") ) {
+                        objectImage.setIcon(null);
+
+                    }
+                    else {
+                        URL url = new URL(object.primaryImage);
+                        BufferedImage image = ImageIO.read(url);
+                        Image scaledImg = image.getScaledInstance(objectImage.getWidth(), objectImage.getHeight(),
+                                Image.SCALE_SMOOTH);
+                        objectImage.setIcon(new ImageIcon(scaledImg));
+
+                    }
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+
+
+                //ImageIcon objectImg = new ImageIcon(object.primaryImage);
+                //objectImage.setIcon(objectImg);
+
                 objectName.setText(object.objectName);
                 objectDate.setText(object.objectDate);
                 objectPeriod.setText(object.period);

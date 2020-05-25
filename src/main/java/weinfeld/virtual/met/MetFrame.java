@@ -8,8 +8,7 @@ import java.util.List;
 
 public class MetFrame extends JFrame {
 
-    //MetFeed.DepartmentList departmentList;
-    ArrayList<Integer> objectIDs;
+    int index;
     JPanel departmentPanel;
     JComboBox<MetFeed.DepartmentList.Department> departmentComboBox;
     JPanel objectPanel;
@@ -26,9 +25,7 @@ public class MetFrame extends JFrame {
 
     public MetFrame() {
 
-        service = new MetServiceFactory().getInstance();
-        controller = new MetController(service,
-                objectIDs);
+
 
         setSize(600, 400);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -41,8 +38,7 @@ public class MetFrame extends JFrame {
         departmentComboBox.isEditable();
         departmentPanel.add(departmentComboBox);
         add(departmentPanel, BorderLayout.WEST);
-        controller.requestDepartments(departmentComboBox);
-        departmentComboBox.setSelectedIndex(-1);
+
         departmentComboBox.addActionListener(ActionEvent -> {getDepObjects();});
 
 
@@ -63,32 +59,39 @@ public class MetFrame extends JFrame {
         objectArrowPanel = new JPanel();
         objectArrowPanel.setLayout(new FlowLayout());
         previousButton = new BasicArrowButton(BasicArrowButton.WEST);
+        previousButton.addActionListener(ActionEvent -> {getPreviousObject();});
         nextButton = new BasicArrowButton(BasicArrowButton.EAST);
+        nextButton.addActionListener(ActionEvent -> {getNextObject();});
 
         objectArrowPanel.add(previousButton);
         objectArrowPanel.add(objectPanel);
         objectArrowPanel.add(nextButton);
 
         add(objectArrowPanel, BorderLayout.CENTER);
+        service = new MetServiceFactory().getInstance();
+        controller = new MetController(service, objectImage, objectName, objectDate, objectPeriod, objectCulture, previousButton, nextButton);
+        controller.requestDepartments(departmentComboBox);
 
 
     }
 
+    private void getPreviousObject() {
+        index --;
+        controller.requestObjectData(index);
+    }
+
+    private void getNextObject() {
+        index ++;
+        controller.requestObjectData(index);
+
+    }
+
+
     private void getDepObjects() {
         MetFeed.DepartmentList.Department selectedDep = (MetFeed.DepartmentList.Department) departmentComboBox.getSelectedItem();
-
         int depId = selectedDep.departmentId;
-
-
         controller.requestObjects(depId);
-
-        int firstObject = 25; //objectIDs.get(0);
-        controller.requestObjectData(firstObject,
-                objectImage,
-                objectName,
-                objectDate,
-                objectPeriod,
-                objectCulture);
+        index = 0;
 
     }
 
