@@ -1,24 +1,37 @@
 package weinfeld.virtual.met;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MetFeed {
 
     class DepartmentList{
         List<Department> departments;
+
+        class Department {
+            int departmentId;
+            String displayName;
+
+            @Override
+            public String toString() {
+                return displayName;
+            }
+        }
+
     }
 
 
     class DepartmentObjects {
         int total;
-        List<Integer> objectIDs;
+        ArrayList<Integer> objectIDs;
     }
 
 
 
     class Object {
-        int objectID;
         String primaryImage;
         String objectName;
         String culture;
@@ -27,10 +40,7 @@ public class MetFeed {
     }
 
 
-    class Department {
-        int departmentId;
-        String displayName;
-    }
+
 
 
 }

@@ -10,8 +10,8 @@ public interface MetService {
     Call<MetFeed.DepartmentList>getDepartments();
 
     @GET("/public/collection/v1/objects")
-    Call<MetFeed.DepartmentObjects>getObjectsInDepartment(@Query("departmentIds") String departmentId);
+    Call<MetFeed.DepartmentObjects>getObjectsInDepartment(@Query("departmentIds") int departmentId);
 
     @GET("/public/collection/v1/objects/{objectID}")
-    Call<MetFeed.Object> getObjectMetadata(@Path("objectID") String objectID);
+    Call<MetFeed.Object> getObjectMetadata(@Path("objectID") int objectID);
 }

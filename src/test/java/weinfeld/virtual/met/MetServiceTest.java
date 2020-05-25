@@ -4,6 +4,7 @@ import org.junit.Test;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -24,11 +25,11 @@ public class MetServiceTest {
         MetFeed.DepartmentList departmentList = response.body();
         assertNotNull(departmentList);
 
-        List<MetFeed.Department> departments = departmentList.departments;
+        List<MetFeed.DepartmentList.Department> departments = departmentList.departments;
         assertFalse(departments.isEmpty());
-        MetFeed.Department department = departments.get(0);
+        MetFeed.DepartmentList.Department department = departments.get(0);
         assertNotNull(department.displayName);
-        assert(department.departmentId < 0);
+        assert(department.departmentId > 0);
 
     }
 
@@ -39,7 +40,7 @@ public class MetServiceTest {
         MetService service = new MetServiceFactory().getInstance();
 
         //when
-        Response<MetFeed.DepartmentObjects> response = service.getObjectsInDepartment("18").execute();
+        Response<MetFeed.DepartmentObjects> response = service.getObjectsInDepartment(18).execute();
 
         //then
         assertTrue(response.toString(), response.isSuccessful());
@@ -47,7 +48,7 @@ public class MetServiceTest {
         assertNotNull(departmentObjects);
 
         assert(departmentObjects.total > 0);
-        List<Integer> objectIDs = departmentObjects.objectIDs;
+        ArrayList<Integer> objectIDs = departmentObjects.objectIDs;
         assertFalse(objectIDs.isEmpty());
         int objectID = objectIDs.get(0);
         assert(objectID > 0);
@@ -61,7 +62,7 @@ public class MetServiceTest {
         MetService service = new MetServiceFactory().getInstance();
 
         //when
-        Response<MetFeed.Object> response = service.getObjectMetadata("500895").execute();
+        Response<MetFeed.Object> response = service.getObjectMetadata(500895).execute();
 
         //then
         assertTrue(response.toString(), response.isSuccessful());
