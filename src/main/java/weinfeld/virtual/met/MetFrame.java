@@ -69,7 +69,7 @@ public class MetFrame extends JFrame {
 
         add(objectArrowPanel, BorderLayout.CENTER);
         service = new MetServiceFactory().getInstance();
-        controller = new MetController(service, objectImage, objectName, objectDate, objectPeriod, objectCulture, previousButton, nextButton);
+        controller = new MetController(service, objectImage, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton);
         controller.requestDepartments(departmentComboBox);
 
 

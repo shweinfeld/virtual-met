@@ -83,32 +83,25 @@ public class MetController {
     public void requestObjectData(int objIndex) {
         nextButton.setEnabled(true);
         previousButton.setEnabled(true);
-        if (objIndex >= objectIDs.size()) {
-            previousButton.setEnabled(false);
-            objIndex = 0;
-        }
-
-        if (objIndex < 0) {
+        if (objIndex == objectIDs.size() - 1) {
             nextButton.setEnabled(false);
-            objIndex = objectIDs.size() - 1;
-
         }
 
-
-
+        if (objIndex == 0) {
+            previousButton.setEnabled(false);
+        }
         service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(new Callback<MetFeed.Object>() {
             @Override
             public void onResponse(Call<MetFeed.Object> call, Response<MetFeed.Object> response) {
 
                 MetFeed.Object object = response.body();
                 assert object != null;
-                objectImage.setSize(200, 200);
+                objectImage.setSize(250, 250);
 
                 try {
 
                     if (object.primaryImage.equals("") ) {
                         objectImage.setIcon(null);
-
                     }
                     else {
                         URL url = new URL(object.primaryImage);
@@ -116,17 +109,10 @@ public class MetController {
                         Image scaledImg = image.getScaledInstance(objectImage.getWidth(), objectImage.getHeight(),
                                 Image.SCALE_SMOOTH);
                         objectImage.setIcon(new ImageIcon(scaledImg));
-
                     }
-
                 } catch (IOException e) {
-
                     e.printStackTrace();
                 }
-
-
-                //ImageIcon objectImg = new ImageIcon(object.primaryImage);
-                //objectImage.setIcon(objectImg);
 
                 objectName.setText(object.objectName);
                 objectDate.setText(object.objectDate);
