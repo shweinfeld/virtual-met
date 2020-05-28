@@ -17,7 +17,7 @@ public class MetFrame extends JFrame {
     JLabel objectDate;
     JLabel objectPeriod;
     JLabel objectCulture;
-    JPanel objectArrowPanel;
+    JPanel arrowPanel;
     BasicArrowButton nextButton;
     BasicArrowButton previousButton;
     MetService service;
@@ -56,18 +56,21 @@ public class MetFrame extends JFrame {
         objectPanel.add(objectPeriod);
         objectPanel.add(objectImage);
 
-        objectArrowPanel = new JPanel();
-        objectArrowPanel.setLayout(new FlowLayout());
+        arrowPanel = new JPanel();
+        arrowPanel.setLayout(new FlowLayout());
         previousButton = new BasicArrowButton(BasicArrowButton.WEST);
         previousButton.addActionListener(ActionEvent -> {getPreviousObject();});
         nextButton = new BasicArrowButton(BasicArrowButton.EAST);
         nextButton.addActionListener(ActionEvent -> {getNextObject();});
 
-        objectArrowPanel.add(previousButton);
-        objectArrowPanel.add(objectPanel);
-        objectArrowPanel.add(nextButton);
 
-        add(objectArrowPanel, BorderLayout.CENTER);
+        arrowPanel.add(previousButton);
+        arrowPanel.add(nextButton);
+
+        add(arrowPanel, BorderLayout.SOUTH);
+
+
+        add(objectPanel, BorderLayout.CENTER);
         service = new MetServiceFactory().getInstance();
         controller = new MetController(service, objectImage, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton);
         controller.requestDepartments(departmentComboBox);

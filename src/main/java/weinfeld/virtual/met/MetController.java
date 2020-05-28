@@ -102,6 +102,7 @@ public class MetController {
 
                     if (object.primaryImage.equals("") ) {
                         objectImage.setIcon(null);
+                        objectImage.setText("No image to display");
                     }
                     else {
                         URL url = new URL(object.primaryImage);
@@ -109,6 +110,7 @@ public class MetController {
                         Image scaledImg = image.getScaledInstance(objectImage.getWidth(), objectImage.getHeight(),
                                 Image.SCALE_SMOOTH);
                         objectImage.setIcon(new ImageIcon(scaledImg));
+                        objectImage.setText("");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
