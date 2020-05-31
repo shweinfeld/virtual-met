@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MetController {
+public class MetController implements Callback<MetFeed.DepartmentList> {
 
     private MetService service;
     JLabel objectImage;
@@ -24,6 +24,7 @@ public class MetController {
     JLabel objectCulture;
     BasicArrowButton nextButton;
     BasicArrowButton previousButton;
+    JComboBox<MetFeed.DepartmentList.Department> departmentComboBox;
 
 
     private ArrayList<Integer> objectIDs;
@@ -33,7 +34,8 @@ public class MetController {
                          JLabel objectPeriod,
                          JLabel objectCulture,
                          BasicArrowButton nextButton,
-                         BasicArrowButton previousButton) {
+                         BasicArrowButton previousButton,
+                         JComboBox<MetFeed.DepartmentList.Department> departmentComboBox) {
         this.service = service;
         this.objectImage = objectImage;
         this.objectName = objectName;
@@ -42,10 +44,11 @@ public class MetController {
         this.objectCulture = objectCulture;
         this.previousButton = previousButton;
         this.nextButton = nextButton;
+        this.departmentComboBox = departmentComboBox;
     }
 
-    public void requestDepartments( JComboBox<MetFeed.DepartmentList.Department> departmentComboBox) {
-        service.getDepartments().enqueue(new Callback<MetFeed.DepartmentList>() {
+    public void requestDepartments() {
+        service.getDepartments().enqueue(this);}
             @Override
             public void onResponse(Call<MetFeed.DepartmentList> call, Response<MetFeed.DepartmentList> response) {
                 MetFeed.DepartmentList departmentList = response.body();
@@ -60,11 +63,9 @@ public class MetController {
             public void onFailure(Call<MetFeed.DepartmentList> call, Throwable t) {
                 t.printStackTrace();
             }
-        });
-    }
 
     public void requestObjects(int depID) {
-        service.getObjectsInDepartment(depID).enqueue(new Callback<MetFeed.DepartmentObjects>() {
+        service.getObjectsInDepartment(depID).enqueue(this);}
             @Override
             public void onResponse(Call<MetFeed.DepartmentObjects> call, Response<MetFeed.DepartmentObjects> response) {
                 MetFeed.DepartmentObjects departmentObjects = response.body();
@@ -77,8 +78,6 @@ public class MetController {
             public void onFailure(Call<MetFeed.DepartmentObjects> call, Throwable t) {
                 t.printStackTrace();
             }
-        });
-    }
 
     public void requestObjectData(int objIndex) {
         nextButton.setEnabled(true);
@@ -90,30 +89,28 @@ public class MetController {
         if (objIndex == 0) {
             previousButton.setEnabled(false);
         }
-        service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(new Callback<MetFeed.Object>() {
+        service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(this);}
             @Override
             public void onResponse(Call<MetFeed.Object> call, Response<MetFeed.Object> response) {
 
                 MetFeed.Object object = response.body();
                 assert object != null;
                 objectImage.setSize(250, 250);
-
-                try {
-
-                    if (object.primaryImage.equals("") ) {
-                        objectImage.setIcon(null);
-                        objectImage.setText("No image to display");
-                    }
-                    else {
+                if (object.primaryImage.equals("") ) {
+                    objectImage.setIcon(null);
+                    objectImage.setText("No image to display");
+                }
+                else {
+                    try {
                         URL url = new URL(object.primaryImage);
                         BufferedImage image = ImageIO.read(url);
                         Image scaledImg = image.getScaledInstance(objectImage.getWidth(), objectImage.getHeight(),
                                 Image.SCALE_SMOOTH);
                         objectImage.setIcon(new ImageIcon(scaledImg));
                         objectImage.setText("");
+                    } catch(IOException e){
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
 
                 objectName.setText(object.objectName);
@@ -128,6 +125,5 @@ public class MetController {
             public void onFailure(Call<MetFeed.Object> call, Throwable t) {
 
             }
-        });
-    }
+
 }
