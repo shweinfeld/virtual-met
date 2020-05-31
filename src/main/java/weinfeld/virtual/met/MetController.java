@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MetController implements Callback<MetFeed.DepartmentList> {
+public class MetController {
 
     private MetService service;
     JLabel objectImage;
@@ -48,12 +48,12 @@ public class MetController implements Callback<MetFeed.DepartmentList> {
     }
 
     public void requestDepartments() {
-        service.getDepartments().enqueue(this);}
+        service.getDepartments().enqueue(new Callback<MetFeed.DepartmentList>() {
             @Override
             public void onResponse(Call<MetFeed.DepartmentList> call, Response<MetFeed.DepartmentList> response) {
                 MetFeed.DepartmentList departmentList = response.body();
                 List<MetFeed.DepartmentList.Department> departments = departmentList.departments;
-                for (MetFeed.DepartmentList.Department department:departments) {
+                for (MetFeed.DepartmentList.Department department : departments) {
                     departmentComboBox.addItem(department);
                 }
 
@@ -63,9 +63,11 @@ public class MetController implements Callback<MetFeed.DepartmentList> {
             public void onFailure(Call<MetFeed.DepartmentList> call, Throwable t) {
                 t.printStackTrace();
             }
+        });
+    }
 
     public void requestObjects(int depID) {
-        service.getObjectsInDepartment(depID).enqueue(this);}
+        service.getObjectsInDepartment(depID).enqueue(new Callback<MetFeed.DepartmentObjects>() {
             @Override
             public void onResponse(Call<MetFeed.DepartmentObjects> call, Response<MetFeed.DepartmentObjects> response) {
                 MetFeed.DepartmentObjects departmentObjects = response.body();
@@ -78,6 +80,8 @@ public class MetController implements Callback<MetFeed.DepartmentList> {
             public void onFailure(Call<MetFeed.DepartmentObjects> call, Throwable t) {
                 t.printStackTrace();
             }
+        });
+    }
 
     public void requestObjectData(int objIndex) {
         nextButton.setEnabled(true);
@@ -89,7 +93,7 @@ public class MetController implements Callback<MetFeed.DepartmentList> {
         if (objIndex == 0) {
             previousButton.setEnabled(false);
         }
-        service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(this);}
+        service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(new Callback<MetFeed.Object>() {
             @Override
             public void onResponse(Call<MetFeed.Object> call, Response<MetFeed.Object> response) {
 
@@ -125,5 +129,7 @@ public class MetController implements Callback<MetFeed.DepartmentList> {
             public void onFailure(Call<MetFeed.Object> call, Throwable t) {
 
             }
+        });
+    }
 
 }
