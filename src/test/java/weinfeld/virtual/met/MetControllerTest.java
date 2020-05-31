@@ -28,7 +28,7 @@ public class MetControllerTest {
         controller.requestDepartments();
 
         //then
-        //verify(call).enqueue(controller);
+        verify(call).enqueue(controller.getCallbackDepartments());
 
     }
 

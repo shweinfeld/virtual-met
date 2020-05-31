@@ -48,7 +48,11 @@ public class MetController {
     }
 
     public void requestDepartments() {
-        service.getDepartments().enqueue(new Callback<MetFeed.DepartmentList>() {
+        service.getDepartments().enqueue(getCallbackDepartments());
+    }
+
+    public Callback<MetFeed.DepartmentList> getCallbackDepartments() {
+        return new Callback<MetFeed.DepartmentList>() {
             @Override
             public void onResponse(Call<MetFeed.DepartmentList> call, Response<MetFeed.DepartmentList> response) {
                 MetFeed.DepartmentList departmentList = response.body();
@@ -63,11 +67,15 @@ public class MetController {
             public void onFailure(Call<MetFeed.DepartmentList> call, Throwable t) {
                 t.printStackTrace();
             }
-        });
+        };
     }
 
     public void requestObjects(int depID) {
-        service.getObjectsInDepartment(depID).enqueue(new Callback<MetFeed.DepartmentObjects>() {
+        service.getObjectsInDepartment(depID).enqueue(getCallbackDepObjects());
+    }
+
+    public Callback<MetFeed.DepartmentObjects> getCallbackDepObjects() {
+        return new Callback<MetFeed.DepartmentObjects>() {
             @Override
             public void onResponse(Call<MetFeed.DepartmentObjects> call, Response<MetFeed.DepartmentObjects> response) {
                 MetFeed.DepartmentObjects departmentObjects = response.body();
@@ -80,7 +88,7 @@ public class MetController {
             public void onFailure(Call<MetFeed.DepartmentObjects> call, Throwable t) {
                 t.printStackTrace();
             }
-        });
+        };
     }
 
     public void requestObjectData(int objIndex) {
@@ -93,7 +101,11 @@ public class MetController {
         if (objIndex == 0) {
             previousButton.setEnabled(false);
         }
-        service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(new Callback<MetFeed.Object>() {
+        service.getObjectMetadata(objectIDs.get(objIndex)).enqueue(getCallbackObject());
+    }
+
+    public Callback<MetFeed.Object> getCallbackObject() {
+        return new Callback<MetFeed.Object>() {
             @Override
             public void onResponse(Call<MetFeed.Object> call, Response<MetFeed.Object> response) {
 
@@ -129,7 +141,7 @@ public class MetController {
             public void onFailure(Call<MetFeed.Object> call, Throwable t) {
 
             }
-        });
+        };
     }
 
 }
