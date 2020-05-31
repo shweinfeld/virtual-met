@@ -13,19 +13,18 @@ import static org.mockito.Mockito.*;
 public class MetControllerTest {
 
     @Test
-    public void requestDepartments() {
+    public void getCallbackDepartments() {
 
         //given
         MetService service = mock(MetService.class);
         Call<MetFeed.DepartmentList> call = mock(Call.class);
-        doReturn(call).when(service).getDepartments();
         JLabel label = mock(JLabel.class);
         BasicArrowButton arrow = mock(BasicArrowButton.class);
         JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
         MetController controller = new MetController(service, label, label, label, label, label, arrow, arrow, comboBox);
 
         //when
-        controller.requestDepartments();
+
 
         //then
         verify(call).enqueue(controller.getCallbackDepartments());
@@ -33,7 +32,7 @@ public class MetControllerTest {
     }
 
     @Test
-    public void requestObjects() {
+    public void getCallbackDepObjects() {
 
         //given
         MetService service = mock(MetService.class);
@@ -53,7 +52,7 @@ public class MetControllerTest {
     }
 
     @Test
-    public void requestObjectData() {
+    public void getCallbackObject() {
 
         //given
 
