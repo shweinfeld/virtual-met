@@ -25,9 +25,10 @@ public class MetControllerTest {
 
         //when
 
+        Callback<MetFeed.DepartmentList> callback = controller.getCallbackDepartments();
 
         //then
-        verify(call).enqueue(controller.getCallbackDepartments());
+        verify(call).enqueue(callback);
 
     }
 
