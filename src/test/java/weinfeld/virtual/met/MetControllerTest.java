@@ -8,7 +8,7 @@ import retrofit2.Response;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -83,10 +83,8 @@ public class MetControllerTest {
         MetFeed.DepartmentList.Department dep = new MetFeed.DepartmentList.Department();
         dep.displayName = "dep";
         dep.departmentId = 1;
-
-        List<MetFeed.DepartmentList.Department> deps = depList.departments;
+        List<MetFeed.DepartmentList.Department> deps = new ArrayList<>();
         deps.add(dep);
-
 
 
         doReturn(deps).when(response).body();
@@ -95,7 +93,7 @@ public class MetControllerTest {
         controller.getCallbackDepartments().onResponse(call, response);
 
         //then
-        verify(comboBox).addItem(depList.departments.get(0));
+        verify(comboBox).addItem(deps.get(0));
 
     }
 }
