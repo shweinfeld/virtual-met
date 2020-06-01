@@ -85,9 +85,10 @@ public class MetControllerTest {
         dep.departmentId = 1;
         List<MetFeed.DepartmentList.Department> deps = new ArrayList<>();
         deps.add(dep);
+        depList.departments = deps;
 
 
-        doReturn(deps).when(response).body();
+        doReturn(depList).when(response).body();
 
         //when
         controller.getCallbackDepartments().onResponse(call, response);
