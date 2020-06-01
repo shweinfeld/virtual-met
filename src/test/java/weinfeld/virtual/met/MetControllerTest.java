@@ -83,7 +83,9 @@ public class MetControllerTest {
         MetFeed.DepartmentList.Department dep = new MetFeed.DepartmentList.Department();
         dep.displayName = "dep";
         dep.departmentId = 1;
-        List<MetFeed.DepartmentList.Department> deps = Arrays.asList(dep);
+
+        List<MetFeed.DepartmentList.Department> deps = depList.departments;
+        deps.add(dep);
 
 
 
