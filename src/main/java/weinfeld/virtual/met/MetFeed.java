@@ -8,10 +8,12 @@ import java.util.List;
 
 public class MetFeed {
 
-    class DepartmentList{
+
+
+    static class DepartmentList{
         List<Department> departments;
 
-        class Department {
+        static class Department {
             int departmentId;
             String displayName;
 
