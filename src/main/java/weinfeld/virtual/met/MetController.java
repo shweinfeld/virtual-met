@@ -1,5 +1,6 @@
 package weinfeld.virtual.met;
 
+import com.google.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +29,7 @@ public class MetController {
 
 
     private ArrayList<Integer> objectIDs;
+    @Inject
     public MetController(MetService service, JLabel objectImage,
                          JLabel objectName,
                          JLabel objectDate,
