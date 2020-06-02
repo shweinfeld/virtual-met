@@ -13,14 +13,14 @@ import java.util.List;
 public class MetFrame extends JFrame {
 
     int index;
-    JLabel objectImage;
-    JLabel objectName;
-    JLabel objectDate;
-    JLabel objectPeriod;
-    JLabel objectCulture;
     @Inject
     public MetFrame(MetController controller,
                     JComboBox<MetFeed.DepartmentList.Department> departmentComboBox,
+                    JLabel objectImage,
+                    JLabel objectName,
+                    JLabel objectDate,
+                    JLabel objectPeriod,
+                    JLabel objectCulture,
                     BasicArrowButton nextButton,
                     BasicArrowButton previousButton) {
 
@@ -41,11 +41,6 @@ public class MetFrame extends JFrame {
 
 
         objectPanel.setLayout(new BoxLayout(objectPanel, BoxLayout.Y_AXIS));
-        objectImage = new JLabel();
-        objectName = new JLabel();
-        objectDate = new JLabel();
-        objectPeriod = new JLabel();
-        objectCulture = new JLabel();
 
         objectPanel.add(objectName);
         objectPanel.add(objectCulture);
@@ -94,7 +89,7 @@ public class MetFrame extends JFrame {
 
     public static void main(String[] args) {
 
-        //Injector injector = Guice.createInjector(new MetFrameModule());
+        Injector injector = Guice.createInjector(new MetFrameModule());
         MetService service = new MetServiceFactory().getInstance();
         JComboBox<MetFeed.DepartmentList.Department> departmentComboBox = new JComboBox<>();
         JLabel objectImage = new JLabel();
@@ -106,7 +101,7 @@ public class MetFrame extends JFrame {
         BasicArrowButton previousButton = new BasicArrowButton(BasicArrowButton.WEST);
 
         MetController controller = new MetController(service, objectImage, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton, departmentComboBox);
-        new MetFrame(controller,departmentComboBox, nextButton, previousButton).setVisible(true);
+        new MetFrame(controller,departmentComboBox, objectImage, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton).setVisible(true);
 
         //MetFrame metFrame = injector.getInstance(MetFrame.class);
         //metFrame.setVisible(true);
