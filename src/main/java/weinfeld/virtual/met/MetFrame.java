@@ -24,9 +24,6 @@ public class MetFrame extends JFrame {
     MetController controller;
 
     public MetFrame() {
-
-
-
         setSize(600, 400);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Virtual Met");

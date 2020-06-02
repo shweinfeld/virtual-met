@@ -112,7 +112,7 @@ public class MetController {
                 MetFeed.Object object = response.body();
                 assert object != null;
                 objectImage.setSize(250, 250);
-                if (object.primaryImage.equals("") ) {
+                if ( object.primaryImage == null || object.primaryImage.equals("") ) {
                     objectImage.setIcon(null);
                     objectImage.setText("No image to display");
                 }
@@ -126,6 +126,7 @@ public class MetController {
                         objectImage.setText("");
                     } catch(IOException e){
                         e.printStackTrace();
+                        objectImage.setText("No image to display");
                     }
                 }
 

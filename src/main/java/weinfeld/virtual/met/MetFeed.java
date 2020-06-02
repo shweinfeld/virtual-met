@@ -26,14 +26,14 @@ public class MetFeed {
     }
 
 
-    class DepartmentObjects {
+    static class DepartmentObjects {
         int total;
         ArrayList<Integer> objectIDs;
     }
 
 
 
-    class Object {
+    static class Object {
         String primaryImage;
         String objectName;
         String culture;
