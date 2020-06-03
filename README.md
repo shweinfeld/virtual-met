@@ -13,11 +13,9 @@ The application displays the following when available:
 * Image of artifact
 
 
-
-
+Download Executable [jar File](https://github.com/shweinfeld/virtual-met/blob/master/build/libs/virtual-met-1.0-SNAPSHOT.jar)
 
 ![Initial Screen](screenshots/VM1.png)
 ![ComboBox](screenshots/VM2.png)
 ![Choosing new department](screenshots/VM3.png)
-![Clicking "next" button](screenshots/VM4.png)
 !["next" display](screenshots/VM5.png)
