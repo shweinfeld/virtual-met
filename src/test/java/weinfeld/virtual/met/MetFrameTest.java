@@ -5,9 +5,11 @@ import org.junit.Test;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class MetFrameTest {
 
@@ -30,6 +32,8 @@ public class MetFrameTest {
 
         //then
         verify(controller).requestDepartments();
+
+
     }
 
 

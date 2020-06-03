@@ -19,27 +19,30 @@ public class MetController {
 
     private MetService service;
     JLabel objectImage;
+    JLabel objectTitle;
     JLabel objectName;
     JLabel objectDate;
     JLabel objectPeriod;
     JLabel objectCulture;
-    BasicArrowButton nextButton;
-    BasicArrowButton previousButton;
+    JButton nextButton;
+    JButton previousButton;
     JComboBox<MetFeed.DepartmentList.Department> departmentComboBox;
 
 
     private ArrayList<Integer> objectIDs;
-    @Inject
-    public MetController(MetService service, JLabel objectImage,
+    public MetController(MetService service,
+                         JLabel objectImage,
+                         JLabel objectTitle,
                          JLabel objectName,
                          JLabel objectDate,
                          JLabel objectPeriod,
                          JLabel objectCulture,
-                         BasicArrowButton nextButton,
-                         BasicArrowButton previousButton,
+                         JButton nextButton,
+                         JButton previousButton,
                          JComboBox<MetFeed.DepartmentList.Department> departmentComboBox) {
         this.service = service;
         this.objectImage = objectImage;
+        this.objectTitle = objectTitle;
         this.objectName = objectName;
         this.objectDate = objectDate;
         this.objectPeriod = objectPeriod;
@@ -132,6 +135,7 @@ public class MetController {
                     }
                 }
 
+                objectTitle.setText(object.title);
                 objectName.setText(object.objectName);
                 objectDate.setText(object.objectDate);
                 objectPeriod.setText(object.period);

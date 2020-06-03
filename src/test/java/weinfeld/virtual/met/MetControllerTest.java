@@ -91,6 +91,7 @@ public class MetControllerTest {
         MetController controller = new MetController(service, label, label, label, label, label, arrow, arrow, comboBox);
         ArrayList<Integer> objectIDs = mock(ArrayList.class);
         Call<MetFeed.DepartmentObjects> call = mock(Call.class);
+        Call<MetFeed.Object> objCall = mock(Call.class);
         Response<MetFeed.DepartmentObjects> response = mock(Response.class);
 
         MetFeed.DepartmentObjects depObjects = new MetFeed.DepartmentObjects();
@@ -99,6 +100,7 @@ public class MetControllerTest {
 
         depObjects.total = 1;
         depObjects.objectIDs = objIds;
+        doReturn(objCall).when(service).getObjectMetadata(depObjects.objectIDs.get(0));
 
 
         doReturn(depObjects).when(response).body();
@@ -107,7 +109,7 @@ public class MetControllerTest {
         controller.getCallbackDepObjects().onResponse(call, response);
 
         //then
-        verify(objectIDs).set(0, 12345);
+        verify(objectIDs).equals(depObjects.objectIDs);
 
     }
 

@@ -13,16 +13,16 @@ import java.util.List;
 public class MetFrame extends JFrame {
 
     int index;
-    @Inject
     public MetFrame(MetController controller,
                     JComboBox<MetFeed.DepartmentList.Department> departmentComboBox,
                     JLabel objectImage,
+                    JLabel objectTitle,
                     JLabel objectName,
                     JLabel objectDate,
                     JLabel objectPeriod,
                     JLabel objectCulture,
-                    BasicArrowButton nextButton,
-                    BasicArrowButton previousButton) {
+                    JButton nextButton,
+                    JButton previousButton) {
 
         JPanel departmentPanel = new JPanel();
         JPanel objectPanel = new JPanel();
@@ -42,13 +42,14 @@ public class MetFrame extends JFrame {
 
         objectPanel.setLayout(new BoxLayout(objectPanel, BoxLayout.Y_AXIS));
 
+        objectPanel.add(objectTitle);
         objectPanel.add(objectName);
         objectPanel.add(objectCulture);
         objectPanel.add(objectDate);
         objectPanel.add(objectPeriod);
         objectPanel.add(objectImage);
 
-        arrowPanel.setLayout(new FlowLayout());
+        arrowPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         previousButton.addActionListener(ActionEvent -> {getPreviousObject(controller);});
         nextButton.addActionListener(ActionEvent -> {getNextObject(controller);});
 
@@ -57,7 +58,6 @@ public class MetFrame extends JFrame {
         arrowPanel.add(nextButton);
 
         add(arrowPanel, BorderLayout.SOUTH);
-
 
         add(objectPanel, BorderLayout.CENTER);
 
@@ -81,30 +81,29 @@ public class MetFrame extends JFrame {
     private void getDepObjects(MetController controller, JComboBox<MetFeed.DepartmentList.Department> departmentComboBox) {
         MetFeed.DepartmentList.Department selectedDep = (MetFeed.DepartmentList.Department) departmentComboBox.getSelectedItem();
         int depId = selectedDep.departmentId;
-        controller.requestObjects(depId);
         index = 0;
+        controller.requestObjects(depId);
+
 
     }
 
 
     public static void main(String[] args) {
 
-        Injector injector = Guice.createInjector(new MetFrameModule());
         MetService service = new MetServiceFactory().getInstance();
         JComboBox<MetFeed.DepartmentList.Department> departmentComboBox = new JComboBox<>();
+        JLabel objectTitle = new JLabel();
         JLabel objectImage = new JLabel();
         JLabel objectName = new JLabel();
         JLabel objectDate = new JLabel();
         JLabel objectPeriod = new JLabel();
         JLabel objectCulture = new JLabel();
-        BasicArrowButton nextButton = new BasicArrowButton(BasicArrowButton.EAST);
-        BasicArrowButton previousButton = new BasicArrowButton(BasicArrowButton.WEST);
+        JButton nextButton = new JButton("\u2b9e");
+        JButton previousButton = new JButton("\u2b9c");
 
-        MetController controller = new MetController(service, objectImage, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton, departmentComboBox);
-        new MetFrame(controller,departmentComboBox, objectImage, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton).setVisible(true);
+        MetController controller = new MetController(service, objectImage, objectTitle, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton, departmentComboBox);
+        new MetFrame(controller,departmentComboBox, objectImage, objectTitle, objectName, objectDate, objectPeriod, objectCulture, nextButton, previousButton).setVisible(true);
 
-        //MetFrame metFrame = injector.getInstance(MetFrame.class);
-        //metFrame.setVisible(true);
     }
 
 }

@@ -35,6 +35,7 @@ public class MetFeed {
 
     static class Object {
         String primaryImage;
+        String title;
         String objectName;
         String culture;
         String period;
