@@ -18,4 +18,4 @@ Download Executable [jar File](https://github.com/shweinfeld/virtual-met/blob/ma
 ![Initial Screen](screenshots/VM1.png)
 ![ComboBox](screenshots/VM2.png)
 ![Choosing new department](screenshots/VM3.png)
-!["next" display](screenshots/VM5.png)
+!["next" display](screenshots/VM4.png)
