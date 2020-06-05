@@ -70,15 +70,30 @@ public class MetControllerTest {
         ArrayList<Integer> objectIDs = mock(ArrayList.class);
         controller.objectIDs = objectIDs;
         doReturn(call).when(service).getObjectMetadata(1);
-        doReturn(5).when(controller.objectIDs).size();
-        doReturn(1).when(controller.objectIDs).get(1);
+        doReturn(1).when(controller.objectIDs).size();
+        doReturn(1).when(controller.objectIDs).get(0);
 
         //when
-        controller.requestObjectData(1);
+        controller.requestObjectData(0);
 
         //then
         verify(service).getObjectMetadata(1);
         verify(service.getObjectMetadata(1)).enqueue(any());
+        verify(arrow, times(2)).setEnabled(true);
+        verify(arrow, times(2)).setEnabled(false);
+    }
+
+    @Test
+    public void getCallbackDepartments() {
+
+    }
+    @Test
+    public void getCallbackDepObjects() {
+
+    }
+    @Test
+    public void getCallbackObject() {
+
     }
 
     @Test
@@ -141,6 +156,7 @@ public class MetControllerTest {
 
         //then
         assertEquals(controller.objectIDs, depObjects.objectIDs);
+        verify(service).getObjectMetadata(12345);
 
     }
 

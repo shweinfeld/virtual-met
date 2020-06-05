@@ -7,7 +7,6 @@ import retrofit2.Response;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -123,8 +122,6 @@ public class MetController {
                     try {
                         URL url = new URL(object.primaryImage);
                         BufferedImage image = ImageIO.read(url);
-                        Image scaledImg = image.getScaledInstance(objectImage.getWidth(), objectImage.getHeight(),
-                                Image.SCALE_SMOOTH);
                         Image finalImage = image.getScaledInstance(-1, 225, Image. SCALE_SMOOTH);
                         objectImage.setIcon(new ImageIcon(finalImage));
                         objectImage.setText("");
