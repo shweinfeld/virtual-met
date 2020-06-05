@@ -29,7 +29,7 @@ public class MetController {
     JComboBox<MetFeed.DepartmentList.Department> departmentComboBox;
 
 
-    private ArrayList<Integer> objectIDs;
+    ArrayList<Integer> objectIDs;
     public MetController(MetService service,
                          JLabel objectImage,
                          JLabel objectTitle,
@@ -85,7 +85,8 @@ public class MetController {
             public void onResponse(Call<MetFeed.DepartmentObjects> call, Response<MetFeed.DepartmentObjects> response) {
                 MetFeed.DepartmentObjects departmentObjects = response.body();
                 assert departmentObjects != null;
-                objectIDs = departmentObjects.objectIDs;
+                objectIDs = new ArrayList<>();
+                objectIDs.addAll(departmentObjects.objectIDs);
                 requestObjectData(0);
             }
 

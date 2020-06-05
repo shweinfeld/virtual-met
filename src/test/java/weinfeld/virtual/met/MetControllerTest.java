@@ -17,35 +17,68 @@ import static org.mockito.Mockito.*;
 public class MetControllerTest {
 
     @Test
-    public void getCallbackDepartments() {
+    public void requestDepartments() {
 
         //given
+        MetService service = mock(MetService.class);
+        JLabel label = mock(JLabel.class);
+        JButton arrow = mock(JButton.class);
+        JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
+        MetController controller = new MetController(service, label, label, label, label, label, label, arrow, arrow, comboBox);
+        Call<MetFeed.DepartmentList> call = mock(Call.class);
+        doReturn(call).when(service).getDepartments();
 
         //when
+        controller.requestDepartments();
 
         //then
+        verify(service).getDepartments();
+        verify(service.getDepartments()).enqueue(any());
+    }
+
+    @Test
+    public void requestObjects() {
+
+        //given
+        MetService service = mock(MetService.class);
+        JLabel label = mock(JLabel.class);
+        JButton arrow = mock(JButton.class);
+        JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
+        MetController controller = new MetController(service, label, label, label, label, label, label, arrow, arrow, comboBox);
+        Call<MetFeed.DepartmentObjects> call = mock(Call.class);
+        doReturn(call).when(service).getObjectsInDepartment(1);
+
+        //when
+        controller.requestObjects(1);
+
+        //then
+        verify(service).getObjectsInDepartment(1);
+        verify(service.getObjectsInDepartment(1)).enqueue(any());
 
     }
 
     @Test
-    public void getCallbackDepObjects() {
+    public void requestObjectData() {
 
         //given
+        MetService service = mock(MetService.class);
+        JLabel label = mock(JLabel.class);
+        JButton arrow = mock(JButton.class);
+        JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
+        MetController controller = new MetController(service, label, label, label, label, label, label, arrow, arrow, comboBox);
+        Call<MetFeed.Object> call = mock(Call.class);
+        ArrayList<Integer> objectIDs = mock(ArrayList.class);
+        controller.objectIDs = objectIDs;
+        doReturn(call).when(service).getObjectMetadata(1);
+        doReturn(5).when(controller.objectIDs).size();
+        doReturn(1).when(controller.objectIDs).get(1);
 
         //when
+        controller.requestObjectData(1);
 
         //then
-
-    }
-
-    @Test
-    public void getCallbackObject() {
-
-        //given
-
-        //when
-
-        //then
+        verify(service).getObjectMetadata(1);
+        verify(service.getObjectMetadata(1)).enqueue(any());
     }
 
     @Test
@@ -54,9 +87,9 @@ public class MetControllerTest {
         //given
         MetService service = mock(MetService.class);
         JLabel label = mock(JLabel.class);
-        BasicArrowButton arrow = mock(BasicArrowButton.class);
+        JButton arrow = mock(JButton.class);
         JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
-        MetController controller = new MetController(service, label, label, label, label, label, arrow, arrow, comboBox);
+        MetController controller = new MetController(service, label, label, label, label, label, label, arrow, arrow, comboBox);
         Call<MetFeed.DepartmentList> call = mock(Call.class);
         Response<MetFeed.DepartmentList> response = mock(Response.class);
 
@@ -86,10 +119,9 @@ public class MetControllerTest {
         //given
         MetService service = mock(MetService.class);
         JLabel label = mock(JLabel.class);
-        BasicArrowButton arrow = mock(BasicArrowButton.class);
+        JButton arrow = mock(JButton.class);
         JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
-        MetController controller = new MetController(service, label, label, label, label, label, arrow, arrow, comboBox);
-        ArrayList<Integer> objectIDs = mock(ArrayList.class);
+        MetController controller = new MetController(service, label, label, label, label, label, label, arrow, arrow, comboBox);
         Call<MetFeed.DepartmentObjects> call = mock(Call.class);
         Call<MetFeed.Object> objCall = mock(Call.class);
         Response<MetFeed.DepartmentObjects> response = mock(Response.class);
@@ -102,14 +134,13 @@ public class MetControllerTest {
         depObjects.objectIDs = objIds;
         doReturn(objCall).when(service).getObjectMetadata(depObjects.objectIDs.get(0));
 
-
         doReturn(depObjects).when(response).body();
 
         //when
         controller.getCallbackDepObjects().onResponse(call, response);
 
         //then
-        verify(objectIDs).equals(depObjects.objectIDs);
+        verify(controller.objectIDs).addAll(depObjects.objectIDs);
 
     }
 
@@ -119,9 +150,9 @@ public class MetControllerTest {
         //given
         MetService service = mock(MetService.class);
         JLabel label = mock(JLabel.class);
-        BasicArrowButton arrow = mock(BasicArrowButton.class);
+        JButton arrow = mock(JButton.class);
         JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
-        MetController controller = new MetController(service, label, label, label, label, label, arrow, arrow, comboBox);
+        MetController controller = new MetController(service, label, label, label, label, label, label, arrow, arrow, comboBox);
         Call<MetFeed.Object> call = mock(Call.class);
         Response<MetFeed.Object> response = mock(Response.class);
 
@@ -131,6 +162,7 @@ public class MetControllerTest {
         obj.culture = "culture";
         obj.objectDate = "date";
         obj.period = "period";
+        obj.title = "title";
 
         doReturn(obj).when(response).body();
 
@@ -143,6 +175,7 @@ public class MetControllerTest {
         verify(label).setText(obj.culture);
         verify(label).setText(obj.objectDate);
         verify(label).setText(obj.period);
+        verify(label).setText(obj.title);
 
     }
 
