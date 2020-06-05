@@ -27,7 +27,7 @@ public class MetFrame extends JFrame {
         JPanel departmentPanel = new JPanel();
         JPanel objectPanel = new JPanel();
         JPanel arrowPanel = new JPanel();
-        setSize(600, 400);
+        setSize(800, 400);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Virtual Met");
         setLayout(new BorderLayout());
