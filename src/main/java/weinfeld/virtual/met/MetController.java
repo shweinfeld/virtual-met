@@ -28,7 +28,6 @@ public class MetController {
     JButton previousButton;
     JComboBox<MetFeed.DepartmentList.Department> departmentComboBox;
 
-
     ArrayList<Integer> objectIDs;
     public MetController(MetService service,
                          JLabel objectImage,
@@ -85,8 +84,7 @@ public class MetController {
             public void onResponse(Call<MetFeed.DepartmentObjects> call, Response<MetFeed.DepartmentObjects> response) {
                 MetFeed.DepartmentObjects departmentObjects = response.body();
                 assert departmentObjects != null;
-                objectIDs = new ArrayList<>();
-                objectIDs.addAll(departmentObjects.objectIDs);
+                objectIDs = departmentObjects.objectIDs;
                 requestObjectData(0);
             }
 
@@ -117,7 +115,6 @@ public class MetController {
 
                 MetFeed.Object object = response.body();
                 assert object != null;
-                objectImage.setSize(250, 250);
                 if ( object.primaryImage == null || object.primaryImage.equals("") ) {
                     objectImage.setIcon(null);
                     objectImage.setText("No image to display");
@@ -128,7 +125,8 @@ public class MetController {
                         BufferedImage image = ImageIO.read(url);
                         Image scaledImg = image.getScaledInstance(objectImage.getWidth(), objectImage.getHeight(),
                                 Image.SCALE_SMOOTH);
-                        objectImage.setIcon(new ImageIcon(scaledImg));
+                        Image finalImage = image.getScaledInstance(-1, 225, Image. SCALE_SMOOTH);
+                        objectImage.setIcon(new ImageIcon(finalImage));
                         objectImage.setText("");
                     } catch(IOException e){
                         e.printStackTrace();

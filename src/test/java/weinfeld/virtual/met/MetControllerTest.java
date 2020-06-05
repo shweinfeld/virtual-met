@@ -140,7 +140,7 @@ public class MetControllerTest {
         controller.getCallbackDepObjects().onResponse(call, response);
 
         //then
-        verify(controller.objectIDs).addAll(depObjects.objectIDs);
+        assertEquals(controller.objectIDs, depObjects.objectIDs);
 
     }
 
