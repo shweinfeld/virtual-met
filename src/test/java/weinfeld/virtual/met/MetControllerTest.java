@@ -84,37 +84,6 @@ public class MetControllerTest {
     }
 
     @Test
-    public void getCallbackDepartments() {
-
-        //given
-//        MetService service = mock(MetService.class);
-//        JLabel label = mock(JLabel.class);
-//        JButton arrow = mock(JButton.class);
-//        JComboBox<MetFeed.DepartmentList.Department> comboBox = mock(JComboBox.class);
-//        MetController controller = new MetController(service, label, label, label, label, label, label, arrow, arrow, comboBox);
-
-        MetController controller = mock(MetController.class);
-        Callback<MetFeed.DepartmentList> callback = controller.getCallbackDepartments();
-
-        doReturn(callback).when(controller).getCallbackDepartments();
-
-
-        //when
-        Callback<MetFeed.DepartmentList> controllerCallback = controller.getCallbackDepartments();
-
-        //then
-        assertEquals(callback, controllerCallback);
-    }
-    @Test
-    public void getCallbackDepObjects() {
-
-    }
-    @Test
-    public void getCallbackObject() {
-
-    }
-
-    @Test
     public void onResponseDepartments() {
 
         //given
