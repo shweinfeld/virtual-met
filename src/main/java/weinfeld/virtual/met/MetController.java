@@ -122,7 +122,13 @@ public class MetController {
                     try {
                         URL url = new URL(object.primaryImage);
                         BufferedImage image = ImageIO.read(url);
-                        Image finalImage = image.getScaledInstance(-1, 225, Image. SCALE_SMOOTH);
+                        Image finalImage;
+                        if (image.getHeight()>image.getWidth()) {
+                            finalImage = image.getScaledInstance(-1, 250, Image. SCALE_SMOOTH);
+                        }
+                        else {
+                            finalImage = image.getScaledInstance(250, -1, Image. SCALE_SMOOTH);
+                        }
                         objectImage.setIcon(new ImageIcon(finalImage));
                         objectImage.setText("");
                     } catch(IOException e){
